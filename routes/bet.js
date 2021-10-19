@@ -8,7 +8,7 @@ const {
 const router = new Router();
 router.get("/", betsGet);
 router.post("/", betsPost);
-router.put("/:id", betsPut);
-router.delete("/", betsDelete);
+router.put("/:id",betsPut);
+// router.delete("/", betsDelete);
 
 module.exports = router;

@@ -1,33 +1,37 @@
-const { response,request } = require("express");
-const betsGet = (req=request, res = response) => {
-  const {apikey}=req.query;
+const { response, request } = require("express");
+const Bet = require("../models/bet");
+const betsGet = (req = request, res = response) => {
+  const { apikey } = req.query;
   res.json({
     msg: "get API - controlador",
-    apikey
+    apikey,
   });
 };
-const betsPost = (req, res = response) => {
-  const {nombre,edad} = req.body;
+const betsPost = async (req, res = response) => {
+  const body = req.body;
+  const bet = new Bet(body);
+  await bet.save();
   res.json({
-    msg: "post API - controlador",
-    nombre,
-    edad
+    bet,
   });
 };
-const betsPut = (req, res) => {
-  const id= req.params.id;
+const betsPut = async (req, res) => {
+  const { id } = req.params;
+  const { operation, ...resto } = req.body;
+  const bet = await Bet.findByIdAndUpdate(id, resto);
   res.json({
-    msg: `put API - ${id}`,
+    id,
+    bet,
   });
 };
-const betsDelete = (req, res) => {
-  res.json({
-    msg: "delete API - controlador",
-  });
-};
+// const betsDelete = (req, res) => {
+//   res.json({
+//     msg: "delete API - controlador",
+//   });
+// };
 module.exports = {
   betsGet,
   betsPost,
   betsPut,
-  betsDelete,
+  // betsDelete,
 };
